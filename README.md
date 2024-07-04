@@ -1,19 +1,33 @@
-# Steps on how to deploy on github
+name: Node.js CI
 
-## 1 Star repo✨ Then fork⏳
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
 
-## 2. copy the deploy.yml in the channel below
+jobs:
+  build:
 
-[Black github deployment channel](https://whatsapp.com/channel/0029VaePv7T72WTq4R6Pxr0t)
+    runs-on: ubuntu-latest
 
-      
+    strategy:
+      matrix:
+        node-version: [20.x]
 
-## 3. Tap on ACTIONS ABOVE THERE ON THE REPO then tap on (Set up a workflow yourself) and paste that file that you have copied in the channel.. Then rename (main.yml) to deploy.yml  after that you commit changes.
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v3
 
+    - name: Set up Node.js
+      uses: actions/setup-node@v3
+      with:
+        node-version: ${{ matrix.node-version }}
 
+    - name: Install dependencies
+      run: npm install
 
-
-
-
-
-## 4. Go back to (config.js) then copy you session there and your done.... Just waiting for sometime then your bot will start working..
+    - name: Start application
+      run: npm start
